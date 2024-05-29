@@ -49,19 +49,19 @@ pub mod mpl_core_oracle_example {
     pub fn crank_oracle(ctx: Context<CrankOracle>) -> Result<()> {
         match is_us_market_open(Clock::get()?.unix_timestamp) {
             true => {
-                require!(ctx.accounts.oracle.validation == OracleValidation::V1 { create: ExternalValidationResult::Pass, transfer: ExternalValidationResult::Rejected, burn: ExternalValidationResult::Pass, update: ExternalValidationResult::Pass }, Errors::AlreadyUpdated);
+                require!(ctx.accounts.oracle.validation == OracleValidation::V1 {transfer: ExternalValidationResult::Rejected, create: ExternalValidationResult::Pass, burn: ExternalValidationResult::Pass, update: ExternalValidationResult::Pass }, Errors::AlreadyUpdated);
                 ctx.accounts.oracle.validation = OracleValidation::V1 {
-                    create: ExternalValidationResult::Pass,
                     transfer: ExternalValidationResult::Approved,
+                    create: ExternalValidationResult::Pass,
                     burn: ExternalValidationResult::Pass,
                     update: ExternalValidationResult::Pass,
                 };
             }
             false => {
-                require!(ctx.accounts.oracle.validation == OracleValidation::V1 { create: ExternalValidationResult::Pass, transfer: ExternalValidationResult::Approved, burn: ExternalValidationResult::Pass, update: ExternalValidationResult::Pass }, Errors::AlreadyUpdated);
+                require!(ctx.accounts.oracle.validation == OracleValidation::V1 { transfer: ExternalValidationResult::Approved, create: ExternalValidationResult::Pass, burn: ExternalValidationResult::Pass, update: ExternalValidationResult::Pass }, Errors::AlreadyUpdated);
                 ctx.accounts.oracle.validation = OracleValidation::V1 {
-                    create: ExternalValidationResult::Pass,
                     transfer: ExternalValidationResult::Rejected,
+                    create: ExternalValidationResult::Pass,
                     burn: ExternalValidationResult::Pass,
                     update: ExternalValidationResult::Pass,
                 };
